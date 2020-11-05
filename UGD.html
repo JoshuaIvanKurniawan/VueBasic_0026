@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="d-flex justify-content-center">
+            <div class="card border-primary my-5">
+                <div class="card-header">Tebak Angka </div>
+                <div class="card-body text-primary">
+                    <input type="number" class="form-control" v-model="tebakan" :disabled="isDisabled" placeholder="tebak angkanya...."/>
+                    <br>
+                    <button class="btn btn-primary btn-sm" @click="tebak" :disabled="isDisabled">Tebak</button>
+                    <br>
+                    Kesempatan : {{ kesempatan }}
+                </div>
+            </div>
+        </div>
+        <div class="text-center" v-show="benar">
+            <p>Jawaban Anda Benar!!! </p> 
+            <button class="btn btn-primary" @click="mainlagi" >Main lagi</button>
+        </div>
+        <div class="text-center" v-show="kalah">
+            <p>Yah Kamu kalah... </p> 
+            <button class="btn btn-primary" @click="mainlagi" >Main lagi</button>
+        </div>
+        <div class="text-center" v-show="salah">
+            <p>Coba Lagi Yuk </p> 
+            <button class="btn btn-warning" @click="cobalagi" >Coba lagi</button>
+        </div>
+        <footer class="text-center mt-5">
+            {{ `${mhs.nama} | ${mhs.npm} | ${mhs.kelas}` }}
+        </footer>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            angka: Math.floor(Math.random() * 10)+1,
+            tebakan:0,
+            kesempatan:3,
+            salah:undefined,
+            benar:undefined,
+            kalah:undefined,
+            isDisabled:false,
+            mhs: {
+                nama:'Joshua Ivan K',
+                npm: '180710026',
+                kelas: 'E',
+            },
+        },
+        methods: {
+           tebak(){
+            console.log(this.angka);
+            if(this.tebakan == this.angka){
+                this.benar = 1;
+                this.isDisabled = true;
+            }else {
+                    this.salah =1;
+                    this.isDisabled = true;
+                    this.kesempatan--;
+                    if(this.kesempatan==0){
+                        this.kalah=1;
+                        this.salah = undefined;
+                    }
+            }  
+           },
+           cobalagi(){
+                this.isDisabled = false;
+                this.salah = undefined;
+           },
+           mainlagi(){
+               location.reload();
+           }
+        },
+
+    });
+</script>
+</html>
